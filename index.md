@@ -4,6 +4,7 @@
 <a href="/uuid">random uuid generator</a><br>
 <a href="/diff">diff text</a><br>
 <a href="/rjson">relaxed json</a><br>
+<a href="/dirty-json">dirty json</a><br>
 
 
 
