@@ -7,28 +7,20 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script>
+		function uuidv4() {
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			);
+		}
+
 		function random_uuid_onload(){
-			$.ajax({
-				url : 'https://httpbin.org/uuid',
-				type: 'GET',
-				dataType: 'json',
-				success: function(data) {
-					document.getElementById("text_input").value = data['uuid'];
-				}			
-			});
+			document.getElementById("text_input").value = uuidv4();
 		}
 		$(document).ready(function(){
 			$("#random").click(function(){
 				document.getElementById("random").innerHTML = '<i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>'
-				$.ajax({ 
-					url: 'http://httpbin.org/uuid',
-					type: 'GET', 
-					dataType: 'json',
-					success: function(data) {
-						document.getElementById("text_input").value = data['uuid'];
-						document.getElementById("random").innerHTML = '<img src="./img/iconmonstr-refresh-1.svg" />'
-					}
-				});
+				document.getElementById("text_input").value = uuidv4();
+				document.getElementById("random").innerHTML = '<img src="./img/iconmonstr-refresh-1.svg" />'
 			});
 		});
 		function myFunction() {
