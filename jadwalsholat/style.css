@@ -1,0 +1,69 @@
+@font-face {
+    font-family: sevenSegment;
+    src: url(seven_segment.ttf);
+}
+
+@font-face {
+    font-family: roboto;
+    src: url(roboto.ttf);
+}
+
+#main_table {
+    background-color: black;
+    background-size: cover;
+}
+
+/* CLOCK AND DATE */
+#clock, #minute{
+    font-family: sevenSegment;
+    font-size: 10em;
+    color: red;
+}
+#colon {
+    font-size: 10em;
+    color: red;
+}
+#date {
+    font-family: sevenSegment;
+    color: red;
+    font-size: 6em;
+}
+#day_name {
+    color: red;
+    font-family: roboto;
+    font-size: 3em;
+}
+
+/* MASJID NAME AND LOCATION */
+#masjid_name_location {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#masjid_name_1 {
+    color: #63a193;
+    font-size: 7em;
+}
+#masjid_name_2 {
+    color: #63a193;
+    font-size: 9em;
+}
+#masjid_location {
+    color: #63a193;
+    font-size: 3em;
+}
+
+/* PRAYER TIME AND NAME*/
+.prayer_time {
+    font-family: sevenSegment;
+    color: red;
+    font-size: 7em;
+}
+.prayer_name {
+    font-family: roboto;
+    color: #d8d6af;
+    font-size: 5em;
+}
+.prayer_time_name {
+    background-color: rgba(0, 0, 0, 0.7);
+}
