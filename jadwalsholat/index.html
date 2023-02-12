@@ -1,15 +1,69 @@
 <html>
 <head>
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="lib/bundles/adhan.umd.min.js"></script>
+    <script src="lib/moment-with-locales.min.js"></script>
+    <script src="lib/moment-timezone-with-data-10-year-range.min.js"></script>
 </head>
 <body>
+<script>
+function display_ct5() {
+    var x = new Date()
+
+    indonesian_days = ['AHAD', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUM\'AT', 'SABTU']
+    document.getElementById('clock').innerHTML = ("0"+x.getHours()).slice(-2) + ":" +  ("0"+x.getMinutes()).slice(-2) + ":" +  ("0"+x.getSeconds()).slice(-2);
+    document.getElementById('date').innerHTML = ("0"+x.getDate()).slice(-2) + ":" +  ("0"+(x.getMonth()+1)).slice(-2) + ":" +  ("0"+x.getFullYear()).slice(-4);
+    document.getElementById('day_name').innerHTML = indonesian_days[x.getDay()];
+
+    display_c5();
+}
+function display_c5(){
+    var refresh=1000; // Refresh rate in milli seconds
+    mytime=setTimeout('display_ct5()',refresh)
+}
+display_c5()
+</script>
+
+<script type="text/javascript">
+(function(window, document, undefined){
+    window.onload = init;
+    function init(){
+        refreshPrayerTime()
+    }
+})(window, document, undefined);
+
+function refreshPrayerTime() {
+    const coordinates = new adhan.Coordinates(-6.2121485,106.8144439);
+    const params = adhan.CalculationMethod.Singapore();
+    params.adjustments.fajr = 2;
+    params.adjustments.dhuhr = 3;
+    params.adjustments.asr = 2;
+    params.adjustments.maghrib = 3;
+    params.adjustments.isha = 2;
+
+    const date = new Date(2023, 1, 12);
+
+    var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+
+    document.getElementById('fajrTime').innerHTML = moment(prayerTimes.fajr).tz('Asia/Jakarta').format('HH:mm');
+    document.getElementById('sunriseTime').innerHTML = moment(prayerTimes.sunrise).tz('Asia/Jakarta').format('HH:mm');
+    document.getElementById('dhuhrTime').innerHTML = moment(prayerTimes.dhuhr).tz('Asia/Jakarta').format('HH:mm');
+    document.getElementById('asrTime').innerHTML = moment(prayerTimes.asr).tz('Asia/Jakarta').format('HH:mm');
+    document.getElementById('maghribTime').innerHTML = moment(prayerTimes.maghrib).tz('Asia/Jakarta').format('HH:mm');
+    document.getElementById('ishaTime').innerHTML = moment(prayerTimes.isha).tz('Asia/Jakarta').format('HH:mm');
+}
+
+setInterval(() => refreshPrayerTime(), 21600);
+
+</script>
+
 <table width="100%" height="100%" id="main_table" background="masjid.jpg">
     <tr height="40%">
         <td colspan="2">
             <table width="100%" height="100%">
-                <tr height="50%"><td align="center"><span id="clock">20</span><span id="colon">:</span><span id="minute">20</span></td></tr>
-                <tr height="25%"><td align="center"><div id="date">01-03-2023</div></td></tr>
-                <tr height="25%"><td align="center"><div id="day_name">Selasa</div></td></tr>
+                <tr height="50%"><td align="center"><div id="clock">99:99:99</div></td></tr>
+                <tr height="25%"><td align="center"><div id="date">99-99-99</div></td></tr>
+                <tr height="25%"><td align="center"><div id="day_name">KMBMICRO</div></td></tr>
             </table>
         </td>
         <td colspan="4" align="center">
@@ -25,37 +79,37 @@
     <tr height="30%">
         <td width="16.6%">
             <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time">04:42</div></td></tr>
+                <tr height="70%"><td align="center"><div class="prayer_time" id="fajrTime">99:99</div></td></tr>
                 <tr height="30%" valign="top"><td align="center"><div class="prayer_name">SUBUH</div></td></tr>
             </table>
         </td>
         <td width="16.6%">
             <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time">04:42</div></td></tr>
+                <tr height="70%"><td align="center"><div class="prayer_time" id="sunriseTime">99:99</div></td></tr>
                 <tr height="30%" valign="top"><td align="center"><div class="prayer_name">TERBIT</div></td></tr>
             </table>
         </td>
         <td width="16.6%">
             <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time">04:42</div></td></tr>
+                <tr height="70%"><td align="center"><div class="prayer_time" id="dhuhrTime">99:99</div></td></tr>
                 <tr height="30%" valign="top"><td align="center"><div class="prayer_name">DZUHUR</div></td></tr>
             </table>
         </td>
         <td width="16.6%">
             <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time">04:42</div></td></tr>
+                <tr height="70%"><td align="center"><div class="prayer_time" id="asrTime">99:99</div></td></tr>
                 <tr height="30%" valign="top"><td align="center"><div class="prayer_name">ASHAR</div></td></tr>
             </table>
         </td>
         <td width="16.6%">
             <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time">04:42</div></td></tr>
+                <tr height="70%"><td align="center"><div class="prayer_time" id="maghribTime">99:99</div></td></tr>
                 <tr height="30%" valign="top"><td align="center"><div class="prayer_name">MAGHRIB</div></td></tr>
             </table>
         </td>
         <td width="16.6%">
             <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time">04:42</div></td></tr>
+                <tr height="70%"><td align="center"><div class="prayer_time" id="ishaTime">99:99</div></td></tr>
                 <tr height="30%" valign="top"><td align="center"><div class="prayer_name">ISYA</div></td></tr>
             </table>
         </td>

@@ -1,6 +1,6 @@
 @font-face {
     font-family: sevenSegment;
-    src: url(seven_segment.ttf);
+    src: url(Segment7Standard.otf);
 }
 
 @font-face {
@@ -14,19 +14,16 @@
 }
 
 /* CLOCK AND DATE */
-#clock, #minute{
+#clock{
+    padding: 20px;
     font-family: sevenSegment;
-    font-size: 10em;
-    color: red;
-}
-#colon {
-    font-size: 10em;
+    font-size: 9em;
     color: red;
 }
 #date {
     font-family: sevenSegment;
     color: red;
-    font-size: 6em;
+    font-size: 5em;
 }
 #day_name {
     color: red;
@@ -57,12 +54,12 @@
 .prayer_time {
     font-family: sevenSegment;
     color: red;
-    font-size: 7em;
+    font-size: 5em;
 }
 .prayer_name {
     font-family: roboto;
     color: #d8d6af;
-    font-size: 5em;
+    font-size: 2.5em;
 }
 .prayer_time_name {
     background-color: rgba(0, 0, 0, 0.7);
