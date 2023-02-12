@@ -5,7 +5,7 @@
     <script src="lib/moment-with-locales.min.js"></script>
     <script src="lib/moment-timezone-with-data-10-year-range.min.js"></script>
 </head>
-<body>
+<body id="main_body">
 <script>
 function display_ct5() {
     var x = new Date()
@@ -29,6 +29,10 @@ display_c5()
     window.onload = init;
     function init(){
         refreshPrayerTime()
+        document.getElementById("main_body").style.height= window.innerHeight+"px";
+        document.getElementById("main_body").style.width= window.innerWidth+"px";
+        console.log("Screen Height: " + window.innerHeight)
+        console.log("Screen Width: " + window.innerWidth)
     }
 })(window, document, undefined);
 
