@@ -53,7 +53,7 @@ function refreshPrayerTime() {
     document.getElementById('ishaTime').innerHTML = moment(prayerTimes.isha).tz('Asia/Jakarta').format('HH:mm');
 }
 
-setInterval(() => refreshPrayerTime(), 21600);
+setInterval(() => refreshPrayerTime(), 3600);
 
 </script>
 
