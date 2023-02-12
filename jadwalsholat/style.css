@@ -25,13 +25,13 @@ body {
 #clock{
     padding: 20px;
     font-family: sevenSegment;
-    font-size: 9em;
+    font-size: 6.5em;
     color: red;
 }
 #date {
     font-family: sevenSegment;
     color: red;
-    font-size: 5em;
+    font-size: 4em;
 }
 #day_name {
     color: red;
@@ -47,11 +47,11 @@ body {
 }
 #masjid_name_1 {
     color: #63a193;
-    font-size: 7em;
+    font-size: 5em;
 }
 #masjid_name_2 {
     color: #63a193;
-    font-size: 9em;
+    font-size: 7em;
 }
 #masjid_location {
     color: #63a193;
@@ -62,7 +62,7 @@ body {
 .prayer_time {
     font-family: sevenSegment;
     color: red;
-    font-size: 5em;
+    font-size: 3.5em;
 }
 .prayer_name {
     font-family: roboto;
