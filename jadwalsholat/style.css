@@ -8,9 +8,17 @@
     src: url(roboto.ttf);
 }
 
+body {
+    margin: 0px;
+}
+
 #main_table {
     background-color: black;
     background-size: cover;
+    margin: 0px;
+    border: none;
+    border-collapse: collapse;
+
 }
 
 /* CLOCK AND DATE */
