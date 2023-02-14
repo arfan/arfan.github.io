@@ -11,19 +11,6 @@
 
 </head>
 <body id="main_body">
-<div id="myModalGeneral" style="display: none;">
-    <div class="row">
-        <div class="col-md-6">
-            <form method="POST" action="edit_job_info" id="myForm3">
-                <div class="form-group">
-                    <input autocomplete="off"  type="text" id="country" class="form-control country"/>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<button id="bootbox-options-general">Click</button>
-
 <script>
     cityList = [
         {
@@ -3957,24 +3944,7 @@
             }
             refreshPrayerTime()
 
-            //set modal onclick
 
-            $("#bootbox-options-general").on('click', function() {
-                var box = bootbox.dialog({
-                    message : $("#myModalGeneral").html(),
-                    title : "Edit Job General",
-                    className : "modal-darkorange"
-
-                });
-                box.bind('shown.bs.modal', function(){
-                    var availableTags = ["ActionScript","AppleScript","Scala"];
-                    $( ".country" ).autocomplete({
-                        source: availableTags
-                    });
-
-                });
-
-            });
         }
     })(window, document, undefined);
 
