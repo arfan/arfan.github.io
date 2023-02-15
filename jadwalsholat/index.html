@@ -3876,8 +3876,8 @@
     }
 
     function checkIqomahAndAlarm(checkTime, checkTable, prepareDuration, iqomahDuration) {
-        var currentTime = moment().add('minutes', 6*60);
-        // var currentTime = moment();
+        // var currentTime = moment().add('minutes', 6*60);
+        var currentTime = moment();
         var duration = moment.duration(checkTime.diff(currentTime));
         var duration2 = moment.duration(iqomahDuration, 'minutes').subtract(moment.duration(currentTime.diff(checkTime)));
 
