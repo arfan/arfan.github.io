@@ -6,8 +6,11 @@
     <script src="lib/moment-timezone-with-data-10-year-range.min.js"></script>
     <script src="lib/jquery-3.6.3.min.js"></script>
     <script src="lib/bootbox.js"></script>
-    <link href="lib/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="lib/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="lib/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossOrigin="anonymous">
+    <script src="lib/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossOrigin="anonymous"></script>
 
 </head>
 <body id="main_body">
@@ -3852,7 +3855,7 @@
     ];
 
     citySelect = [];
-    for(let i=0;i<cityList.length;i++) {
+    for (let i = 0; i < cityList.length; i++) {
         citySelect.push({
             text: cityList[i].city,
             value: i,
@@ -3863,39 +3866,105 @@
         var x = new Date()
 
         indonesian_days = ['AHAD', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUM\'AT', 'SABTU']
-        document.getElementById('clock').innerHTML = ("0"+x.getHours()).slice(-2) + ":" +  ("0"+x.getMinutes()).slice(-2) + ":" +  ("0"+x.getSeconds()).slice(-2);
-        document.getElementById('date').innerHTML = ("0"+x.getDate()).slice(-2) + ":" +  ("0"+(x.getMonth()+1)).slice(-2) + ":" +  ("0"+x.getFullYear()).slice(-4);
+        document.getElementById('clock').innerHTML = ("0" + x.getHours()).slice(-2) + ":" + ("0" + x.getMinutes()).slice(-2);
+        document.getElementById('date').innerHTML = ("0" + x.getDate()).slice(-2) + ":" + ("0" + (x.getMonth() + 1)).slice(-2) + ":" + ("0" + x.getFullYear()).slice(-4);
         document.getElementById('day_name').innerHTML = indonesian_days[x.getDay()];
 
+        enter = checkIqomahAndAlarm(fajrTime, "fajrTable", 10, 15);
+        if (!enter) enter = checkIqomahAndAlarm(dhuhrTime, "dhuhrTable", 10, 10);
+        if (!enter) enter = checkIqomahAndAlarm(asrTime, "asrTable", 10, 10);
+        if (!enter) enter = checkIqomahAndAlarm(maghribTime, "maghribTable", 10, 10);
+        if (!enter) enter = checkIqomahAndAlarm(ishaTime, "ishaTable", 10, 10);
         display_c5();
     }
-    function display_c5(){
-        var refresh=1000; // Refresh rate in milli seconds
-        mytime=setTimeout('display_ct5()',refresh)
+
+    function checkIqomahAndAlarm(checkTime, checkTable, prepareDuration, iqomahDuration) {
+        // var currentTime = moment().add('minutes', 4*60+20);
+        var currentTime = moment();
+        var duration = moment.duration(checkTime.diff(currentTime));
+        var duration2 = moment.duration(iqomahDuration, 'minutes').subtract(moment.duration(currentTime.diff(checkTime)));
+        //
+        // console.log("currentTime", currentTime.format("HH:mm:ss"));
+        // console.log("fajrTime", checkTime.format("HH:mm:ss"));
+        // console.log("duration", duration.asMinutes());
+        // console.log("duration2", duration2.asMinutes());
+
+        durationMinutes = duration.asMinutes();
+        if (durationMinutes < prepareDuration && durationMinutes > 0) {
+            console.log("SIAP-SIAP", duration.minutes(), duration.seconds());
+
+            document.getElementById("fajrTable").style.opacity = 0.3;
+            document.getElementById("sunriseTable").style.opacity = 0.3;
+            document.getElementById("dhuhrTable").style.opacity = 0.3;
+            document.getElementById("asrTable").style.opacity = 0.3;
+            document.getElementById("maghribTable").style.opacity = 0.3;
+            document.getElementById("ishaTable").style.opacity = 0.3;
+
+            document.getElementById(checkTable).style.opacity = 1;
+            document.getElementById("counter").style.opacity = 1;
+            document.getElementById("count_title").innerHTML = "SIAP-SIAP";
+            document.getElementById("count_time").innerHTML = ("0" + duration.minutes()).slice(-2) + ":" + ("0" + duration.seconds()).slice(-2);
+
+            return true;
+        } else if (durationMinutes > -iqomahDuration && durationMinutes < 0) {
+            console.log("IQOMAH");
+
+            document.getElementById("fajrTable").style.opacity = 0.3;
+            document.getElementById("sunriseTable").style.opacity = 0.3;
+            document.getElementById("dhuhrTable").style.opacity = 0.3;
+            document.getElementById("asrTable").style.opacity = 0.3;
+            document.getElementById("maghribTable").style.opacity = 0.3;
+            document.getElementById("ishaTable").style.opacity = 0.3;
+
+            document.getElementById(checkTable).style.opacity = 1;
+            document.getElementById("counter").style.opacity = 1;
+            document.getElementById("count_title").innerHTML = "IQOMAH";
+            document.getElementById("count_time").innerHTML = ("0" + duration2.minutes()).slice(-2) + ":" + ("0" + duration2.seconds()).slice(-2);
+
+            return true;
+        } else {
+            document.getElementById("fajrTable").style.opacity = 1;
+            document.getElementById("sunriseTable").style.opacity = 1;
+            document.getElementById("dhuhrTable").style.opacity = 1;
+            document.getElementById("asrTable").style.opacity = 1;
+            document.getElementById("maghribTable").style.opacity = 1;
+            document.getElementById("ishaTable").style.opacity = 1;
+
+            document.getElementById("counter").style.opacity = 0;
+        }
+
+        return false;
     }
+
+    function display_c5() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout('display_ct5()', refresh)
+    }
+
     display_c5()
 </script>
 
 <script type="text/javascript">
-    (function(window, document, undefined){
+    (function (window, document, undefined) {
         window.onload = init;
-        function init(){
-            document.getElementById("main_body").style.height= window.innerHeight+"px";
-            document.getElementById("main_body").style.width= window.innerWidth+"px";
+
+        function init() {
+            document.getElementById("main_body").style.height = window.innerHeight + "px";
+            document.getElementById("main_body").style.width = window.innerWidth + "px";
             console.log("Screen Height: " + window.innerHeight)
             console.log("Screen Width: " + window.innerWidth)
 
             // set masjid name 1
             masjidName1LocalStorage = localStorage.getItem("masjid_name_1");
-            if(masjidName1LocalStorage !== null) {
+            if (masjidName1LocalStorage !== null) {
                 document.getElementById("masjid_name_1").innerHTML = masjidName1LocalStorage;
             }
 
             document.getElementById("masjid_name_1").onclick = function changeMasjidName1() {
                 console.log("change masjid name 1");
                 masjidName1 = prompt("Masjid name 1", "MASJID");
-                if(masjidName1 !==null) {
-                    console.log("name1:"+masjidName1);
+                if (masjidName1 !== null) {
+                    console.log("name1:" + masjidName1);
                     localStorage.setItem("masjid_name_1", masjidName1);
                     document.getElementById("masjid_name_1").innerHTML = masjidName1;
                 }
@@ -3903,22 +3972,22 @@
 
             // set masjid name 2
             masjidName2LocalStorage = localStorage.getItem("masjid_name_2");
-            if(masjidName2LocalStorage !== null) {
+            if (masjidName2LocalStorage !== null) {
                 document.getElementById("masjid_name_2").innerHTML = masjidName2LocalStorage;
             }
 
             document.getElementById("masjid_name_2").onclick = function changeMasjidName2() {
                 console.log("change masjid name 2");
-                masjidName2 = prompt("Masjid name 2", "AL-ARFAN");
-                if(masjidName2!== null) {
-                    console.log("name1:"+masjidName2);
+                masjidName2 = prompt("Masjid name 2", "KMBMICRO");
+                if (masjidName2 !== null) {
+                    console.log("name1:" + masjidName2);
                     localStorage.setItem("masjid_name_2", masjidName2);
                     document.getElementById("masjid_name_2").innerHTML = masjidName2;
                 }
             }
 
             masjidLocation = localStorage.getItem("masjid_location");
-            if(masjidLocation !== null) {
+            if (masjidLocation !== null) {
                 document.getElementById("masjid_location").innerHTML = cityList[masjidLocation].city;
             } else {
                 masjidLocation = 164; // default jakarta
@@ -3933,7 +4002,7 @@
                     inputOptions: citySelect,
                     callback: function (result) {
                         console.log(result);
-                        if(result !== null) {
+                        if (result !== null) {
                             localStorage.setItem("masjid_location", result);
                             document.getElementById("masjid_location").innerHTML = cityList[result].city;
                             masjidLocation = result;
@@ -3942,14 +4011,21 @@
                     }
                 });
             }
-            refreshPrayerTime()
-
-
+            readParam();
+            refreshPrayerTime();
         }
     })(window, document, undefined);
 
+    function readParam() {
+        const urlParams = new URLSearchParams(window.location.search);
+        masjidLocation = urlParams.get('masjidLocation');
+        masjidName1 = urlParams.get('masjidName1');
+        masjidName2 = urlParams.get('masjidName2');
+        // alert(masjidLocation);
+    }
+
     function refreshPrayerTime() {
-        if(masjidLocation === null) {
+        if (masjidLocation === null) {
             masjidLocation = 164;
         }
 
@@ -3965,12 +4041,28 @@
 
         var prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
 
-        document.getElementById('fajrTime').innerHTML = moment(prayerTimes.fajr).utcOffset(cityList[masjidLocation].timezone*60).format('HH:mm');
-        document.getElementById('sunriseTime').innerHTML = moment(prayerTimes.sunrise).utcOffset(cityList[masjidLocation].timezone*60).format('HH:mm');
-        document.getElementById('dhuhrTime').innerHTML = moment(prayerTimes.dhuhr).utcOffset(cityList[masjidLocation].timezone*60).format('HH:mm');
-        document.getElementById('asrTime').innerHTML = moment(prayerTimes.asr).utcOffset(cityList[masjidLocation].timezone*60).format('HH:mm');
-        document.getElementById('maghribTime').innerHTML = moment(prayerTimes.maghrib).utcOffset(cityList[masjidLocation].timezone*60).format('HH:mm');
-        document.getElementById('ishaTime').innerHTML = moment(prayerTimes.isha).utcOffset(cityList[masjidLocation].timezone*60).format('HH:mm');
+        if (cityList[masjidLocation].city !== null) {
+            document.getElementById('masjid_location').innerHTML = cityList[masjidLocation].city;
+        }
+        if (masjidName1 !== null) {
+            document.getElementById('masjid_name_1').innerHTML = masjidName1;
+        }
+        if (masjidName2 !== null) {
+            document.getElementById('masjid_name_2').innerHTML = masjidName2;
+        }
+
+        fajrTime = moment(prayerTimes.fajr).utcOffset(cityList[masjidLocation].timezone * 60);
+        dhuhrTime = moment(prayerTimes.dhuhr).utcOffset(cityList[masjidLocation].timezone * 60);
+        asrTime = moment(prayerTimes.asr).utcOffset(cityList[masjidLocation].timezone * 60);
+        maghribTime = moment(prayerTimes.maghrib).utcOffset(cityList[masjidLocation].timezone * 60);
+        ishaTime = moment(prayerTimes.isha).utcOffset(cityList[masjidLocation].timezone * 60);
+
+        document.getElementById('fajrTime').innerHTML = moment(prayerTimes.fajr).utcOffset(cityList[masjidLocation].timezone * 60).format('HH:mm');
+        document.getElementById('sunriseTime').innerHTML = moment(prayerTimes.sunrise).utcOffset(cityList[masjidLocation].timezone * 60).format('HH:mm');
+        document.getElementById('dhuhrTime').innerHTML = moment(prayerTimes.dhuhr).utcOffset(cityList[masjidLocation].timezone * 60).format('HH:mm');
+        document.getElementById('asrTime').innerHTML = moment(prayerTimes.asr).utcOffset(cityList[masjidLocation].timezone * 60).format('HH:mm');
+        document.getElementById('maghribTime').innerHTML = moment(prayerTimes.maghrib).utcOffset(cityList[masjidLocation].timezone * 60).format('HH:mm');
+        document.getElementById('ishaTime').innerHTML = moment(prayerTimes.isha).utcOffset(cityList[masjidLocation].timezone * 60).format('HH:mm');
     }
 
     setInterval(() => {
@@ -3980,60 +4072,145 @@
 
 </script>
 
-<table width="100%" height="100%" id="main_table" background="masjid.jpg">
+<table border="1" width="100%" height="100%" id="main_table" background="masjid.jpg">
     <tr height="40%">
-        <td colspan="2">
-            <table width="100%" height="100%">
-                <tr height="50%"><td align="center"><div id="clock">99:99:99</div></td></tr>
-                <tr height="25%"><td align="center"><div id="date">99-99-99</div></td></tr>
-                <tr height="25%"><td align="center"><div id="day_name">AL-ARFAN</div></td></tr>
+        <td colSpan="2">
+            <table width="100%" height="100%" id="clock_date">
+                <tr height="50%">
+                    <td align="center">
+                        <div id="clock">99:99</div>
+                    </td>
+                </tr>
+                <tr height="25%">
+                    <td align="center">
+                        <div id="date">99-99-99</div>
+                    </td>
+                </tr>
+                <tr height="25%">
+                    <td align="center">
+                        <div id="day_name">KMBMICRO</div>
+                    </td>
+                </tr>
             </table>
         </td>
-        <td colspan="4" align="center">
+        <td colSpan="4" align="center">
             <table height="100%" id="masjid_name_location">
-                <tr height="30%"><td align="center"><div id="masjid_name_1">MASJID</div></td></tr>
-                <tr height="40%"><td align="center"><div id="masjid_name_2">AL-ARFAN</div></td></tr>
-                <tr height="30%"><td align="center"><div id="masjid_location">DKI JAKARTA</div></td></tr>
+                <tr height="30%">
+                    <td align="center">
+                        <div id="masjid_name_1">MASJID</div>
+                    </td>
+                </tr>
+                <tr height="40%">
+                    <td align="center">
+                        <div id="masjid_name_2">KMBMICRO</div>
+                    </td>
+                </tr>
+                <tr height="30%">
+                    <td align="center">
+                        <div id="masjid_location">DKI JAKARTA</div>
+                    </td>
+                </tr>
             </table>
         </td>
     </tr>
     <tr height="30%">
+        <td colSpan="4">
+            <table height="100%" width="100%" border="1" id="counter">
+                <tr>
+                    <td width="50%">
+                        <div id="count_title">SIAP-SIAP</div>
+                    </td>
+                    <td width="50%">
+                        <div id="count_time">-00:00</div>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
     </tr>
     <tr height="30%">
         <td width="16.6%">
-            <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time" id="fajrTime">99:99</div></td></tr>
-                <tr height="30%" valign="top"><td align="center"><div class="prayer_name">SUBUH</div></td></tr>
+            <table height="100%" width="100%" className="prayer_time_name" id="fajrTable">
+                <tr height="70%">
+                    <td align="center">
+                        <div className="prayer_time" id="fajrTime">99:99</div>
+                    </td>
+                </tr>
+                <tr height="30%" valign="top">
+                    <td align="center">
+                        <div className="prayer_name">SUBUH</div>
+                    </td>
+                </tr>
             </table>
         </td>
         <td width="16.6%">
-            <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time" id="sunriseTime">99:99</div></td></tr>
-                <tr height="30%" valign="top"><td align="center"><div class="prayer_name">TERBIT</div></td></tr>
+            <table height="100%" width="100%" className="prayer_time_name" id="sunriseTable">
+                <tr height="70%">
+                    <td align="center">
+                        <div className="prayer_time" id="sunriseTime">99:99</div>
+                    </td>
+                </tr>
+                <tr height="30%" valign="top">
+                    <td align="center">
+                        <div className="prayer_name">TERBIT</div>
+                    </td>
+                </tr>
             </table>
         </td>
         <td width="16.6%">
-            <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time" id="dhuhrTime">99:99</div></td></tr>
-                <tr height="30%" valign="top"><td align="center"><div class="prayer_name">DZUHUR</div></td></tr>
+            <table height="100%" width="100%" className="prayer_time_name" id="dhuhrTable">
+                <tr height="70%">
+                    <td align="center">
+                        <div className="prayer_time" id="dhuhrTime">99:99</div>
+                    </td>
+                </tr>
+                <tr height="30%" valign="top">
+                    <td align="center">
+                        <div className="prayer_name">DZUHUR</div>
+                    </td>
+                </tr>
             </table>
         </td>
         <td width="16.6%">
-            <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time" id="asrTime">99:99</div></td></tr>
-                <tr height="30%" valign="top"><td align="center"><div class="prayer_name">ASHAR</div></td></tr>
+            <table height="100%" width="100%" className="prayer_time_name" id="asrTable">
+                <tr height="70%">
+                    <td align="center">
+                        <div className="prayer_time" id="asrTime">99:99</div>
+                    </td>
+                </tr>
+                <tr height="30%" valign="top">
+                    <td align="center">
+                        <div className="prayer_name">ASHAR</div>
+                    </td>
+                </tr>
             </table>
         </td>
         <td width="16.6%">
-            <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time" id="maghribTime">99:99</div></td></tr>
-                <tr height="30%" valign="top"><td align="center"><div class="prayer_name">MAGHRIB</div></td></tr>
+            <table height="100%" width="100%" className="prayer_time_name" id="maghribTable">
+                <tr height="70%">
+                    <td align="center">
+                        <div className="prayer_time" id="maghribTime">99:99</div>
+                    </td>
+                </tr>
+                <tr height="30%" valign="top">
+                    <td align="center">
+                        <div className="prayer_name">MAGHRIB</div>
+                    </td>
+                </tr>
             </table>
         </td>
         <td width="16.6%">
-            <table height="100%" width="100%" class="prayer_time_name">
-                <tr height="70%"><td align="center"><div class="prayer_time" id="ishaTime">99:99</div></td></tr>
-                <tr height="30%" valign="top"><td align="center"><div class="prayer_name">ISYA</div></td></tr>
+            <table height="100%" width="100%" className="prayer_time_name" id="ishaTable">
+                <tr height="70%">
+                    <td align="center">
+                        <div className="prayer_time" id="ishaTime">99:99</div>
+                    </td>
+                </tr>
+                <tr height="30%" valign="top">
+                    <td align="center">
+                        <div className="prayer_name">ISYA</div>
+                    </td>
+                </tr>
             </table>
         </td>
     </tr>
