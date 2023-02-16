@@ -28,49 +28,48 @@ body {
 #clock{
     padding: 20px;
     font-family: sevenSegment;
-    font-size: 6.5vw;
+    font-size: 13vmin;
     color: red;
 }
 #date {
     font-family: sevenSegment;
     color: red;
-    font-size: 5vw;
+    font-size: 9vmin;
 }
 #day_name {
     color: red;
     font-family: roboto;
-    font-size: 3vw;
+    font-size: 6vmin;
 }
 
 /* MASJID NAME AND LOCATION */
 #masjid_name_location {
     background-color: rgba(0, 0, 0, 0.7);
-    padding-left: 50px;
-    padding-right: 50px;
 }
 #masjid_name_1 {
     color: #63a193;
-    font-size: 5vw;
+    font-size: 7vmin;
 }
+
 #masjid_name_2 {
     color: #63a193;
-    font-size: 7vw;
+    font-size: 10vmin;
 }
 #masjid_location {
     color: #63a193;
-    font-size: 3vw;
+    font-size: 7vmin;
 }
 
 /* PRAYER TIME AND NAME*/
 .prayer_time {
     font-family: sevenSegment;
     color: red;
-    font-size: 4.5vw;
+    font-size: 10vmin;
 }
 .prayer_name {
     font-family: roboto;
     color: #d8d6af;
-    font-size: 3vw;
+    font-size: 7vmin;
 }
 .prayer_time_name {
     background-color: rgba(0, 0, 0, 0.7);
@@ -87,12 +86,12 @@ body {
     margin-left: 20px;
     font-family: roboto;
     color: red;
-    font-size: 6vw;
+    font-size: 6vmin;
 }
 
 #count_time {
     margin-left: 20px;
     font-family: sevenSegment;
     color: red;
-    font-size: 8vw;
+    font-size: 8vmin;
 }
