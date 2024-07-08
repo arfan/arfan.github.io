@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <script type="text/javascript">
+      window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('name');
+        document.getElementById('input_search').value = myParam;
+        document.getElementById('myForm').submit();
+      };
+    </script>
+</head>
+<body>
+  <form id="myForm" action="https://cekbpom.pom.go.id/search_home_produk" method="post">
+    <input id="input_search" type="hidden" name="input_search" value="tolak angin">
+    <input type="hidden" name="from_home_flag" value="Y">
+    <input type="hidden" name="st_filter" value="2">
+  </form>
+</body>
+</html>
